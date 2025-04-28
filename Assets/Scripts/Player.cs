@@ -1,0 +1,117 @@
+using System;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class Player : MovingObject
+{
+    Camera playerCamera;
+    [SerializeField] float moveSpeed;
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject nukePrefab;
+    [SerializeField] float maxHealth;
+    [SerializeField] float regenRate;
+    [SerializeField] float attackRate;
+    [SerializeField] float nukeCooldown;
+    float attackCounter = 0.0f;
+    float currentAttackRate;
+    float attackRateCounter = 0.0f;
+    bool attackRateChanged = false;
+    int nukes = 0;
+    float nukeCounter = 0.0f;
+    Rigidbody2D rb;
+    public UnityEvent nukeUpdate;
+    public Action OnDeath;
+
+    void Awake() {
+        playerCamera = Camera.main;
+        health = new Health(maxHealth, regenRate, maxHealth);
+        rb = GetComponent<Rigidbody2D>();
+        currentAttackRate = attackRate;
+    }
+
+    void Start() {
+        UIManager.getInstance().updateNukes(nukes);
+    }
+
+    void Update() {
+        if (attackCounter < currentAttackRate) {
+            attackCounter += Time.deltaTime;
+        }
+        if (nukeCounter > 0.0f) {
+            nukeCounter -= Time.deltaTime;
+            if (nukeCounter <= 0.0f) {
+                nukeCounter = 0.0f;
+                UIManager.getInstance().clearNukeCooldownText();
+            } else {
+                UIManager.getInstance().updateNukeCooldown(nukeCounter);
+            }
+        }
+        if (attackRateCounter > 0.0f) {
+            attackRateCounter -= Time.deltaTime;
+            if (attackRateCounter <= 0.0f) {
+                attackRateCounter = 0.0f;
+                currentAttackRate = attackRate;
+                attackRateChanged = false;
+                UIManager.getInstance().clearPowerupText();
+            } else {
+                UIManager.getInstance().updatePowerupTime("Firing Speed", attackRateCounter);
+            }
+        }
+        health.regenerateHealth();
+    }
+
+    public override void move(Vector2 direction, Vector2 target) {
+        rb.linearVelocity = direction * moveSpeed * Time.deltaTime;
+        Vector3 playerScreenPos = playerCamera.WorldToScreenPoint(transform.position);
+        target.x -= playerScreenPos.x;
+        target.y -= playerScreenPos.y;
+        float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, angle);
+    }
+
+    public override void fire() {
+        if (attackCounter >= currentAttackRate) {
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+            bullet.GetComponent<Bullet>().setInfo(10.0f, 15.0f, 5.0f, "Player");
+            attackCounter = 0.0f;
+        }
+    }
+
+    public override void attack(float interval) {
+        
+    }
+
+    public void useNuke() {
+        if (nukes > 0 && nukeCounter == 0.0f) {
+            Instantiate(nukePrefab, transform.position, Quaternion.identity);
+            nukeCounter = nukeCooldown;
+            nukes--;
+            UIManager.getInstance().updateNukes(nukes);
+        }
+    }
+
+    public void addNuke() {
+        nukes++;
+        UIManager.getInstance().updateNukes(nukes);
+    }
+    
+    public void changeAttackRate(float mult, float timerVal) {
+        if (!attackRateChanged) {
+            // divide attack timer to multiply attack rate
+            currentAttackRate /= mult;
+            attackRateChanged = true;
+        }
+        attackRateCounter = timerVal;
+        UIManager.getInstance().updatePowerupTime("Firing Speed", timerVal);
+    }
+
+    public override void die() {
+        EnemySpawner.getInstance().removeLasers();
+        GameManager.getInstance().gameStop();
+        Destroy(gameObject);
+    }
+
+    public override void GetDamage(float damage) {
+        base.GetDamage(damage);
+    }
+}

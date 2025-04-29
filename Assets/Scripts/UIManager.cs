@@ -1,18 +1,34 @@
+using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     static UIManager instance;
+    [SerializeField] Canvas mainCanvas;
     [SerializeField] TextMeshProUGUI healthText;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI highScoreText;
     [SerializeField] TextMeshProUGUI nukesText;
     [SerializeField] TextMeshProUGUI nukeCooldownText;
     [SerializeField] TextMeshProUGUI powerupText;
+
     [SerializeField] Canvas menuCanvas;
-    [SerializeField] TextMeshProUGUI gameOverText;
+    [SerializeField] GameObject mainGroup;
+    [SerializeField] TextMeshProUGUI mainMenuHighScoreText;
+
+    [SerializeField] GameObject instructionsGroup;
+    [SerializeField] GameObject optionsGroup;
+
+    [SerializeField] TextMeshProUGUI mainMenuText;
     Player player;
+
+    public enum MenuGroup {
+        Main,
+        Instructions,
+        Options
+    }
 
     public static UIManager getInstance() {
         return instance;
@@ -34,8 +50,18 @@ public class UIManager : MonoBehaviour
         player.health.onHealthUpdate += updateHealth;
     }
 
+    public void setMainCanvasActive(bool active) {
+        mainCanvas.gameObject.SetActive(active);
+    }
+
     public void setMenuCanvasActive(bool active) {
         menuCanvas.gameObject.SetActive(active);
+    }
+
+    public void setActiveGroup(MenuGroup group) {
+        mainGroup.SetActive(group == MenuGroup.Main);
+        instructionsGroup.SetActive(group == MenuGroup.Instructions);
+        optionsGroup.SetActive(group == MenuGroup.Options);
     }
 
     void OnDisable() {
@@ -76,7 +102,11 @@ public class UIManager : MonoBehaviour
         powerupText.SetText("");
     }
 
-    public void setGameOverText(string text) {
-        gameOverText.SetText(text);
+    public void setMainMenuText(string text) {
+        mainMenuText.SetText(text);
+    }
+
+    public void setMainMenuHighScore(int score) {
+        mainMenuHighScoreText.SetText("High Score: " + score.ToString());
     }
 }

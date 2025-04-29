@@ -6,6 +6,8 @@ public class Player : MovingObject
 {
     Camera playerCamera;
     [SerializeField] float moveSpeed;
+    [SerializeField] float moveBoundX;
+    [SerializeField] float moveBoundY;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject nukePrefab;
     [SerializeField] float maxHealth;
@@ -62,6 +64,16 @@ public class Player : MovingObject
 
     public override void move(Vector2 direction, Vector2 target) {
         rb.linearVelocity = direction * moveSpeed * Time.deltaTime;
+        if (transform.position.x > moveBoundX) {
+            transform.position = new Vector3(moveBoundX, transform.position.y, 0.0f);
+        } else if (transform.position.x < -moveBoundX) {
+            transform.position = new Vector3(-moveBoundX, transform.position.y, 0.0f);
+        }
+        if (transform.position.y > moveBoundY) {
+            transform.position = new Vector3(transform.position.x, moveBoundY, 0.0f);
+        } else if (transform.position.y < -moveBoundY) {
+            transform.position = new Vector3(transform.position.x, -moveBoundY, 0.0f);
+        }
         Vector3 playerScreenPos = playerCamera.WorldToScreenPoint(transform.position);
         target.x -= playerScreenPos.x;
         target.y -= playerScreenPos.y;

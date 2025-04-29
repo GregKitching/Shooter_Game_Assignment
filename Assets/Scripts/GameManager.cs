@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
         createSingleton();
     }
 
+    void Start() {
+        uiManager.setMainMenuHighScore(scoreManager.getHighSCore());
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -33,9 +37,26 @@ public class GameManager : MonoBehaviour
     }
 
     public void gameStop() {
-        uiManager.setGameOverText("Game Over");
+        uiManager.setMainMenuText("Game Over");
         scoreManager.setHighScore();
         StartCoroutine(GameStop());
+    }
+
+    public void instructionsButtonPressed() {
+        uiManager.setActiveGroup(UIManager.MenuGroup.Instructions);
+    }
+
+    public void optionsButtonPressed() {
+        uiManager.setActiveGroup(UIManager.MenuGroup.Options);
+    }
+
+    public void quitButtonPressed() {
+        Application.Quit();
+    }
+
+    public void backButtonPressed() {
+        uiManager.setMainMenuText("Shooter Game");
+        uiManager.setActiveGroup(UIManager.MenuGroup.Main);
     }
 
     IEnumerator GameStart() {
@@ -46,6 +67,7 @@ public class GameManager : MonoBehaviour
         uiManager.updateScore(0);
         uiManager.updateHighScore(ScoreManager.getInstance().getHighSCore());
         uiManager.setMenuCanvasActive(false);
+        uiManager.setMainCanvasActive(true);
         enemySpawner.setSpawningEnemies(true);
     }
 
@@ -53,7 +75,9 @@ public class GameManager : MonoBehaviour
         enemySpawner.setSpawningEnemies(false);
         yield return new WaitForSeconds(2.0f);
         scoreManager.setHighScore();
+        uiManager.setMainCanvasActive(false);
         uiManager.setMenuCanvasActive(true);
+        uiManager.setMainMenuHighScore(scoreManager.getHighSCore());
         enemySpawner.deleteAllEnemies();
     }
 }

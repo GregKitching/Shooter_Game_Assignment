@@ -75,14 +75,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2490ba251323c5e74aeb243e4e947ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiManager: {fileID: 0}
   moveSpeed: 200
+  moveBoundX: 11
+  moveBoundY: 5.5
   bulletPrefab: {fileID: 2029492363924737011, guid: 92b42109c354c86999014f5344416070, type: 3}
   nukePrefab: {fileID: 2574291413442062526, guid: cce6c9fc2406d48ec87049ce742b466f, type: 3}
   maxHealth: 100
   regenRate: 1
   attackRate: 0.25
   nukeCooldown: 10
+  nukeUpdate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7902054108364540316
 MonoBehaviour:
   m_ObjectHideFlags: 0

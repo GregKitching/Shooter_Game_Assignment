@@ -31,4 +31,14 @@ public class Nuke : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Projectile")) {
+            Projectile projectile = collision.GetComponent<Projectile>();
+            if (!projectile.isPlayerBullet()) {
+                Destroy(collision.gameObject);
+            }
+        }
+    }
 }

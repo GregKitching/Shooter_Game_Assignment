@@ -82,8 +82,8 @@ public class UIManager : MonoBehaviour
         highScoreText.SetText("High Score: " + score.ToString());
     }
 
-    public void updateNukes(int nukes) {
-        nukesText.SetText("Nukes: " + nukes.ToString());
+    public void updateNukes(int nukes, int maxNukes) {
+        nukesText.SetText("Nukes: " + nukes.ToString() + "/" + maxNukes.ToString());
     }
 
     public void updateNukeCooldown(float time) {

@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 2841194511792297756}
   m_Layer: 0
   m_Name: FireSpeedPickup
-  m_TagString: Enemy
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -212,5 +212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edfda3ef8520e7d65bd8a4e66d8b3260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deleteTime: 10
   multiplier: 3
-  effectTime: 5
+  effectTime: 3

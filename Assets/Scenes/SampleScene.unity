@@ -595,8 +595,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 543266678}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.9999995}
+  m_AnchorMin: {x: 0, y: 0.23699622}
+  m_AnchorMax: {x: 1, y: 0.99999964}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -672,8 +672,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -121}
-  m_SizeDelta: {x: 914.997, y: 503.6917}
+  m_AnchoredPosition: {x: -0.34350586, y: -2.7996063}
+  m_SizeDelta: {x: 914.31, y: 463.2951}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &211423166
 MonoBehaviour:
@@ -699,7 +699,19 @@ MonoBehaviour:
 
     Left Click - Fire
 
-    Right Click - Use Nuke'
+    Right Click - Use Nuke
+
+
+    Health
+    pickup (cross): regenerates 10 points of health
+
+
+    Firing Speed pickup (diamond):
+    triples firing speed for three seconds
+
+
+    Nuke (hexagon): Destroys all enemies
+    on screen and all enemy projectiles a certain radius around the player'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3140,7 +3152,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.0001906329}
-  m_SizeDelta: {x: 0, y: 300}
+  m_SizeDelta: {x: 0, y: 500}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1476813401
 GameObject:
@@ -3406,14 +3418,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ce28c372739b354b6e645d2bbdb77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickups:
-  - pickup: {fileID: 8634371653038512746, guid: cc2b51d77da09ffc4a9b223ee510e1b8, type: 3}
-    spawnAmount: 1
-  - pickup: {fileID: 7409398053631904400, guid: fcc38d05707de5250a044602b969bc6a, type: 3}
-    spawnAmount: 1
-  - pickup: {fileID: 2841194511792297756, guid: 4c3dbf2482aa08ce48a1a9d83cd0bcb0, type: 3}
-    spawnAmount: 1
   pickupProbability: 0.5
+  healthPickupPrefab: {fileID: 4519643829952730496, guid: cc2b51d77da09ffc4a9b223ee510e1b8, type: 3}
+  firingSpeedPickupPrefab: {fileID: 7359296739921295839, guid: 4c3dbf2482aa08ce48a1a9d83cd0bcb0, type: 3}
+  nukePickupPrefab: {fileID: 4910543301794735589, guid: fcc38d05707de5250a044602b969bc6a, type: 3}
+  healthProbability: 0.5
+  firingSpeedProbability: 0.3
+  nukeProbability: 0.2
 --- !u!4 &1594329090
 Transform:
   m_ObjectHideFlags: 0
@@ -3647,8 +3658,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 200213585}
   m_HandleRect: {fileID: 200213584}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 0.99999845
+  m_Size: 0.7630034
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3740,6 +3751,11 @@ MonoBehaviour:
   gunEnemyPrefab: {fileID: 8427713931601872673, guid: 0ba9e54acd96de7a9a8d6f45bd84ac7d, type: 3}
   laserEnemyPrefab: {fileID: 8427713931601872673, guid: b29fa6a8055e06cc99ca2ce01e03dc04, type: 3}
   shockwaveEnemyPrefab: {fileID: 8427713931601872673, guid: 895c7fbe35aa5691686c45524e1ee480, type: 3}
+  meleeEnemyStartingSpawnChance: 1
+  gunEnemyStartingSpawnChance: 0
+  laserEnemyStartingSpawnChance: 0
+  explodingEnemyStartingSpawnChance: 0
+  shockwaveEnemyStartingSpawnChance: 0
   spawnTime: 2
 --- !u!1 &1745666966
 GameObject:
@@ -4603,7 +4619,7 @@ RectTransform:
   m_Father: {fileID: 164129223}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.99999994, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}

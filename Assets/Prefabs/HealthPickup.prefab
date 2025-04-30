@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 7829355832706798082}
   m_Layer: 0
   m_Name: HealthPickup
-  m_TagString: Enemy
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,8 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f892166a3e8d6cd89b25e5860350a7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMin: 5
-  healthMax: 20
+  deleteTime: 10
+  restoredHealth: 10
 --- !u!50 &5898548990592869562
 Rigidbody2D:
   serializedVersion: 5

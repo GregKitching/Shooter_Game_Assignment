@@ -4,11 +4,13 @@ using UnityEngine;
 public class PickupSpawner : MonoBehaviour
 {
     static PickupSpawner instance;
-    [SerializeField] PickupSpawn[] pickups;
     [Range(0, 1)] [SerializeField] float pickupProbability;
-    List<Pickup> pickupPool = new List<Pickup>();
-    Pickup chosenPickup;
-
+    [SerializeField] GameObject healthPickupPrefab;
+    [SerializeField] GameObject firingSpeedPickupPrefab;
+    [SerializeField] GameObject nukePickupPrefab;
+    [SerializeField] float healthProbability;
+    [SerializeField] float firingSpeedProbability;
+    [SerializeField] float nukeProbability;
 
     public static PickupSpawner getInstance() {
         return instance;
@@ -25,29 +27,20 @@ public class PickupSpawner : MonoBehaviour
         createSingleton();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        foreach(PickupSpawn spawn in pickups) {
-            for (int i = 0; i < spawn.spawnAmount; i++) {
-                pickupPool.Add(spawn.pickup);
+    public void spawnPickup(Vector2 spawnPosition) {
+        if (UnityEngine.Random.Range(0.0f, 1.0f) < pickupProbability) {
+            float selection = UnityEngine.Random.Range(0.0f, 1.0f);
+            if (selection < healthProbability) {
+                if (!GameManager.getInstance().getPlayer().hasMaxHealth()) {
+                    Instantiate(healthPickupPrefab, spawnPosition, Quaternion.identity);
+                }
+            } else if (selection < firingSpeedProbability + healthProbability) {
+                Instantiate(firingSpeedPickupPrefab, spawnPosition, Quaternion.identity);
+            } else {
+                if (!GameManager.getInstance().getPlayer().hasMaxNukes()) {
+                    Instantiate(nukePickupPrefab, spawnPosition, Quaternion.identity);
+                }
             }
         }
     }
-
-    public void spawnPickup(Vector2 spawnPosition) {
-        if (pickupPool.Count == 0) {
-            return;
-        }
-        if (UnityEngine.Random.Range(0.0f, 1.0f) < pickupProbability) {
-            chosenPickup = pickupPool[UnityEngine.Random.Range(0, pickupPool.Count)];
-            Instantiate(chosenPickup, spawnPosition, Quaternion.identity);
-        }
-    }
-}
-
-[System.Serializable]
-public struct PickupSpawn {
-    public Pickup pickup;
-    public int spawnAmount;
 }

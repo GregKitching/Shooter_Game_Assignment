@@ -34,6 +34,10 @@ public class Health
         return currentHealth;
     }
 
+    public float getMaxHealth() {
+        return maxHealth;
+    }
+
     public void regenerateHealth() {
         addHealth(regenRate * Time.deltaTime);
         onHealthUpdate?.Invoke(currentHealth);

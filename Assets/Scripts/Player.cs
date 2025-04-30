@@ -13,6 +13,7 @@ public class Player : MovingObject
     [SerializeField] float maxHealth;
     [SerializeField] float regenRate;
     [SerializeField] float attackRate;
+    [SerializeField] int maxNukes;
     [SerializeField] float nukeCooldown;
     float attackCounter = 0.0f;
     float currentAttackRate;
@@ -32,7 +33,7 @@ public class Player : MovingObject
     }
 
     void Start() {
-        UIManager.getInstance().updateNukes(nukes);
+        UIManager.getInstance().updateNukes(nukes, maxNukes);
     }
 
     void Update() {
@@ -98,13 +99,15 @@ public class Player : MovingObject
             Instantiate(nukePrefab, transform.position, Quaternion.identity);
             nukeCounter = nukeCooldown;
             nukes--;
-            UIManager.getInstance().updateNukes(nukes);
+            UIManager.getInstance().updateNukes(nukes, maxNukes);
         }
     }
 
     public void addNuke() {
-        nukes++;
-        UIManager.getInstance().updateNukes(nukes);
+        if (nukes < maxNukes) {
+            nukes++;
+            UIManager.getInstance().updateNukes(nukes, maxNukes);
+        }
     }
     
     public void changeAttackRate(float mult, float timerVal) {
@@ -123,7 +126,22 @@ public class Player : MovingObject
         Destroy(gameObject);
     }
 
+    public bool hasMaxHealth() {
+        return health.getHealth() == health.getMaxHealth();
+    }
+
+    public bool hasMaxNukes() {
+        return nukes == maxNukes;
+    }
+
     public override void GetDamage(float damage) {
         base.GetDamage(damage);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Pickup")) {
+            collision.GetComponent<Pickup>().OnPickup();
+        }
     }
 }

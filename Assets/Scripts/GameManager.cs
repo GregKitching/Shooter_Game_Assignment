@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
         uiManager.updateHighScore(ScoreManager.getInstance().getHighSCore());
         uiManager.setMenuCanvasActive(false);
         uiManager.setMainCanvasActive(true);
+        enemySpawner.resetEnemySpawnRatios();
         enemySpawner.setSpawningEnemies(true);
     }
 

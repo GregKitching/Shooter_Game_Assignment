@@ -9,12 +9,22 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject gunEnemyPrefab;
     [SerializeField] GameObject laserEnemyPrefab;
     [SerializeField] GameObject shockwaveEnemyPrefab;
+    [Range(0, 1)] [SerializeField] float meleeEnemyStartingSpawnChance;
+    [Range(0, 1)] [SerializeField] float gunEnemyStartingSpawnChance;
+    [Range(0, 1)] [SerializeField] float laserEnemyStartingSpawnChance;
+    [Range(0, 1)] [SerializeField] float explodingEnemyStartingSpawnChance;
+    [Range(0, 1)] [SerializeField] float shockwaveEnemyStartingSpawnChance;
     List<GameObject> spawnedEnemies = new List<GameObject>();
     [SerializeField] float spawnTime;
     bool spawningEnemies = false;
     float spawnTimer = 0.0f;
     float delTime = 5.0f;
     float delTimer = 0.0f;
+    float meleeEnemySpawnChance;
+    float gunEnemySpawnChance;
+    float laserEnemySpawnChance;
+    float explodingEnemySpawnChance;
+    float shockwaveEnemySpawnChance;
 
     public static EnemySpawner getInstance() {
         return instance;
@@ -37,14 +47,14 @@ public class EnemySpawner : MonoBehaviour
         if (spawningEnemies) {
             spawnTimer += Time.deltaTime;
             if (spawnTimer >= spawnTime) {
-                int enemyType = Random.Range(0, 100);
-                if (enemyType < 40) {
+                float enemyType = Random.Range(0.0f, 1.0f);
+                if (enemyType < meleeEnemySpawnChance) {
                     spawnedEnemies.Add(Instantiate(meleeEnemyPrefab, getRandomPositionOnCircle(10.0f), Quaternion.identity));
-                } else if (enemyType > 39 && enemyType < 70) {
+                } else if (enemyType < gunEnemySpawnChance + meleeEnemySpawnChance) {
                     spawnedEnemies.Add(Instantiate(gunEnemyPrefab, getRandomPositionOnCircle(10.0f), Quaternion.identity));
-                } else if (enemyType > 69 && enemyType < 89) {
+                } else if (enemyType < laserEnemySpawnChance + gunEnemySpawnChance + meleeEnemySpawnChance) {
                     spawnedEnemies.Add(Instantiate(laserEnemyPrefab, getRandomPositionOnCircle(10.0f), Quaternion.identity));
-                } else if (enemyType > 88 && enemyType < 98) {
+                } else if (enemyType < explodingEnemySpawnChance + laserEnemySpawnChance + gunEnemySpawnChance + meleeEnemySpawnChance) {
                     spawnedEnemies.Add(Instantiate(explodingEnemyPrefab, getRandomPositionOnCircle(10.0f), Quaternion.identity));
                 } else {
                     spawnedEnemies.Add(Instantiate(shockwaveEnemyPrefab, getRandomPositionOnCircle(10.0f), Quaternion.identity));
@@ -60,6 +70,22 @@ public class EnemySpawner : MonoBehaviour
                 delTimer -= delTime;
             }
         }
+    }
+
+    public void setEnemySpawnRatios(float melee, float gun, float laser, float exploding, float shockwave) {
+        meleeEnemySpawnChance = melee;
+        gunEnemySpawnChance = gun;
+        laserEnemySpawnChance = laser;
+        explodingEnemySpawnChance = exploding;
+        shockwaveEnemySpawnChance = shockwave;
+    }
+
+    public void resetEnemySpawnRatios() {
+        meleeEnemySpawnChance = meleeEnemyStartingSpawnChance;
+        gunEnemySpawnChance = gunEnemyStartingSpawnChance;
+        laserEnemySpawnChance = laserEnemyStartingSpawnChance;
+        explodingEnemySpawnChance = explodingEnemyStartingSpawnChance;
+        shockwaveEnemySpawnChance = shockwaveEnemyStartingSpawnChance;
     }
 
     public void setSpawningEnemies(bool a) {

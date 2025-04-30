@@ -10,7 +10,6 @@ public class ShockwaveEnemy : Enemy
     [SerializeField] float growRate;
     [SerializeField] GameObject shockwavePrefab;
     float timer = 0.0f;
-    float attackTimer = 0.0f;
 
     // Update is called once per frame
     protected override void Update()

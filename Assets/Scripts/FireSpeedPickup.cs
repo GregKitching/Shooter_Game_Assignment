@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FireSpeedPickup : Pickup, IDamagable
+public class FireSpeedPickup : Pickup//, IDamagable
 {
     [SerializeField] float multiplier;
     [SerializeField] float effectTime;
@@ -10,7 +10,7 @@ public class FireSpeedPickup : Pickup, IDamagable
         base.OnPickup();
     }
 
-    public void GetDamage(float damage) {
+    /*public void GetDamage(float damage) {
         OnPickup();
-    }
+    }*/
 }

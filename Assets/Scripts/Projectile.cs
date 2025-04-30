@@ -47,4 +47,8 @@ public class Projectile : MonoBehaviour
             addDamage(damagable);
         }
     }
+
+    public bool isPlayerBullet() {
+        return ignoredTag == "Player";
+    }
 }

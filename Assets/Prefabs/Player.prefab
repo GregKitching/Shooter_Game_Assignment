@@ -83,6 +83,7 @@ MonoBehaviour:
   maxHealth: 100
   regenRate: 1
   attackRate: 0.25
+  maxNukes: 3
   nukeCooldown: 10
   nukeUpdate:
     m_PersistentCalls:

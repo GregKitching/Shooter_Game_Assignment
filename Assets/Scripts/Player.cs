@@ -13,13 +13,13 @@ public class Player : MovingObject
     [SerializeField] float maxHealth;
     [SerializeField] float regenRate;
     [SerializeField] float attackRate;
-    [SerializeField] int maxNukes;
     [SerializeField] float nukeCooldown;
     float attackCounter = 0.0f;
     float currentAttackRate;
     float attackRateCounter = 0.0f;
     bool attackRateChanged = false;
-    int nukes = 0;
+    int nukes;
+    int maxNukes;
     float nukeCounter = 0.0f;
     Rigidbody2D rb;
     public UnityEvent nukeUpdate;
@@ -134,7 +134,18 @@ public class Player : MovingObject
         return nukes == maxNukes;
     }
 
-    public override void GetDamage(float damage) {
+    public void setNukes(int value)
+    {
+        nukes = value;
+    }
+
+    public void setMaxNukes(int value)
+    {
+        maxNukes = value;
+    }
+
+    public override void GetDamage(float damage)
+    {
         base.GetDamage(damage);
     }
 

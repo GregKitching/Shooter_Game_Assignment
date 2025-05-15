@@ -6,6 +6,7 @@ public class PlayerInput : MonoBehaviour
     float horizontal;
     float vertical;
     Vector2 lookTarget;
+    bool paused = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +24,18 @@ public class PlayerInput : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1)) {
             player.useNuke();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (paused) {
+                Time.timeScale = 1.0f;
+                UIManager.getInstance().setPauseTextActive(false);
+                paused = false;
+            } else {
+                Time.timeScale = 0.0f;
+                UIManager.getInstance().setPauseTextActive(true);
+                paused = true;
+            }
         }
     }
 

@@ -9,13 +9,12 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject gunEnemyPrefab;
     [SerializeField] GameObject laserEnemyPrefab;
     [SerializeField] GameObject shockwaveEnemyPrefab;
-    [Range(0, 1)] [SerializeField] float meleeEnemyStartingSpawnChance;
-    [Range(0, 1)] [SerializeField] float gunEnemyStartingSpawnChance;
-    [Range(0, 1)] [SerializeField] float laserEnemyStartingSpawnChance;
-    [Range(0, 1)] [SerializeField] float explodingEnemyStartingSpawnChance;
-    [Range(0, 1)] [SerializeField] float shockwaveEnemyStartingSpawnChance;
+    [Range(0, 1)][SerializeField] float meleeEnemyStartingSpawnChance;
+    [Range(0, 1)][SerializeField] float gunEnemyStartingSpawnChance;
+    [Range(0, 1)][SerializeField] float laserEnemyStartingSpawnChance;
+    [Range(0, 1)][SerializeField] float explodingEnemyStartingSpawnChance;
+    [Range(0, 1)][SerializeField] float shockwaveEnemyStartingSpawnChance;
     List<GameObject> spawnedEnemies = new List<GameObject>();
-    [SerializeField] float spawnTime;
     bool spawningEnemies = false;
     float spawnTimer = 0.0f;
     float delTime = 5.0f;
@@ -25,6 +24,7 @@ public class EnemySpawner : MonoBehaviour
     float laserEnemySpawnChance;
     float explodingEnemySpawnChance;
     float shockwaveEnemySpawnChance;
+    float spawnTime;
 
     public static EnemySpawner getInstance() {
         return instance;
@@ -97,7 +97,7 @@ public class EnemySpawner : MonoBehaviour
         float x2 = x * x;
         int quadrant = UnityEngine.Random.Range(0, 4);
         float y = Mathf.Sqrt((c * c) - x2);
-        switch(quadrant) {
+        switch (quadrant) {
             case 0:
                 return new Vector2(x, y);
             case 1:
@@ -107,7 +107,7 @@ public class EnemySpawner : MonoBehaviour
             default:
                 return new Vector2(-x, -y);
         }
-        
+
     }
 
     void garbageCollect() {
@@ -122,7 +122,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     public void deleteAllEnemies() {
-        while(spawnedEnemies.Count > 0) {
+        while (spawnedEnemies.Count > 0) {
             Destroy(spawnedEnemies[0]);
             spawnedEnemies.RemoveAt(0);
         }
@@ -146,5 +146,9 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void setInitialSpawnTime(float t) {
+        spawnTime = t;
     }
 }

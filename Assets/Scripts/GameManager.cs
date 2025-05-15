@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     }
 
     void Start() {
+        uiManager.setMaxNukesSlider(PlayerPrefs.GetInt("MaxNukes", 3));
+        uiManager.setStartingNukesSlider(PlayerPrefs.GetInt("StartingNukes", 0));
+        uiManager.setInitialEnemySpawnRateSlider(PlayerPrefs.GetFloat("InitialEnemySpawnRate", 2.0f));
         uiManager.setMainMenuHighScore(scoreManager.getHighSCore());
     }
 
@@ -62,7 +65,10 @@ public class GameManager : MonoBehaviour
     IEnumerator GameStart() {
         yield return new WaitForSeconds(0.5f);
         player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
+        player.setMaxNukes(uiManager.getMaxNukes());
+        player.setNukes(uiManager.getStartingNukes());
         uiManager.setPlayer(player);
+        enemySpawner.setInitialSpawnTime(uiManager.getInitialEnemySpawnRate());
         scoreManager.resetScore();
         uiManager.updateScore(0);
         uiManager.updateHighScore(ScoreManager.getInstance().getHighSCore());

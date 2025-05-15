@@ -26,7 +26,7 @@ public class ScoreManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         score = 0;
-        highScore = PlayerPrefs.GetInt("HighScore");
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
         UIManager.getInstance().updateScore(0);
         UIManager.getInstance().updateHighScore(highScore);
         // TODO: don't have this hard coded

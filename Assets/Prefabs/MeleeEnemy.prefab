@@ -139,6 +139,7 @@ MonoBehaviour:
   maintainDistanceFromPlayer: 0
   distance: 0
   scoreValue: 1
+  enemyDamageClip: {fileID: 8300000, guid: c6ea31829d53849f28c75d1270a04d63, type: 3}
   damage: 5
 --- !u!50 &8236999759149869895
 Rigidbody2D:

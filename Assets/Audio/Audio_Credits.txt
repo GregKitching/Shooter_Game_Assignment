@@ -1,0 +1,6 @@
+GunEnemyShoot.wav, PlayerShoot.wav, PlayerHit.wav, EnemyHit.wav, ShockwaveEnemyShoot.wav by dklon - https://opengameart.org/content/laser-fire
+ExplodingEnemyExplode.wav, NukeExplode.wav, PlayerDie.wav, EnemyDie.wav by dklon - https://opengameart.org/content/boom-pack-1
+LaserEnemyCharge.mp3 by Caitlin_100 - https://pixabay.com/sound-effects/computer-hum-102466/
+ExplodingEnemyFuse.mp3 by Seidolon - https://pixabay.com/sound-effects/fuse-80913/
+LaserEnemyFire by SoundReality - https://pixabay.com/sound-effects/fluorescent-light-186080/
+Powerup.mp3 by SRJA_Gaming - https://pixabay.com/sound-effects/video-game-powerup-38065/

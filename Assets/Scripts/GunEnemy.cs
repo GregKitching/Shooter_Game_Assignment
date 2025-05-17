@@ -7,12 +7,14 @@ public class GunEnemy : Enemy
     [SerializeField] float attackRange;
     [SerializeField] float attackInterval;
     [SerializeField] GameObject bulletPrefab;
+    AudioSource audioSource;
     float timer = 0.0f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
         base.Start();
         enemyType = EnemyType.Gunner;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -35,5 +37,11 @@ public class GunEnemy : Enemy
     public override void fire() {
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet.GetComponent<Bullet>().setInfo(bulletDamage, bulletSpeed, 5.0f, "Enemy", new Color(0.0f, 0.75f, 1.0f));
+        audioSource.Play();
+    }
+
+    public override void GetDamage(float damage) {
+        base.GetDamage(damage);
+        audioSource.PlayOneShot(enemyDamageClip);
     }
 }

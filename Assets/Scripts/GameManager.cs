@@ -8,8 +8,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] ScoreManager scoreManager;
     [SerializeField] UIManager uiManager;
     [SerializeField] GameObject playerPrefab;
+    [SerializeField] AudioClip playerDeathClip;
     Player player;
-    public static GameManager getInstance() {
+    AudioSource audioSource;
+    public static GameManager getInstance()
+    {
         return instance;
     }
     
@@ -29,6 +32,7 @@ public class GameManager : MonoBehaviour
         uiManager.setStartingNukesSlider(PlayerPrefs.GetInt("StartingNukes", 0));
         uiManager.setInitialEnemySpawnRateSlider(PlayerPrefs.GetFloat("InitialEnemySpawnRate", 2.0f));
         uiManager.setMainMenuHighScore(scoreManager.getHighSCore());
+        audioSource = GetComponent<AudioSource>();
     }
 
     public Player getPlayer() {
@@ -86,5 +90,14 @@ public class GameManager : MonoBehaviour
         uiManager.setMenuCanvasActive(true);
         uiManager.setMainMenuHighScore(scoreManager.getHighSCore());
         enemySpawner.deleteAllEnemies();
+    }
+
+    public void playPlayerDeathSound() {
+        audioSource.PlayOneShot(playerDeathClip);
+    }
+    
+    public void playEnemyDeathSound()
+    {
+        audioSource.Play();
     }
 }

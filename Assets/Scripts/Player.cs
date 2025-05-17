@@ -14,6 +14,10 @@ public class Player : MovingObject
     [SerializeField] float regenRate;
     [SerializeField] float attackRate;
     [SerializeField] float nukeCooldown;
+    [SerializeField] AudioClip playerShootClip;
+    [SerializeField] AudioClip playerHitClip;
+    [SerializeField] AudioClip nukeExplodeClip;
+    [SerializeField] AudioClip powerupClip;
     float attackCounter = 0.0f;
     float currentAttackRate;
     float attackRateCounter = 0.0f;
@@ -22,6 +26,7 @@ public class Player : MovingObject
     int maxNukes;
     float nukeCounter = 0.0f;
     Rigidbody2D rb;
+    AudioSource audioSource;
     public UnityEvent nukeUpdate;
     public Action OnDeath;
 
@@ -29,6 +34,7 @@ public class Player : MovingObject
         playerCamera = Camera.main;
         health = new Health(maxHealth, regenRate, maxHealth);
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         currentAttackRate = attackRate;
     }
 
@@ -87,6 +93,7 @@ public class Player : MovingObject
             GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
             bullet.GetComponent<Bullet>().setInfo(10.0f, 15.0f, 5.0f, "Player");
             attackCounter = 0.0f;
+            audioSource.PlayOneShot(playerShootClip);
         }
     }
 
@@ -97,6 +104,7 @@ public class Player : MovingObject
     public void useNuke() {
         if (nukes > 0 && nukeCounter == 0.0f) {
             Instantiate(nukePrefab, transform.position, Quaternion.identity);
+            audioSource.PlayOneShot(nukeExplodeClip);
             nukeCounter = nukeCooldown;
             nukes--;
             UIManager.getInstance().updateNukes(nukes, maxNukes);
@@ -121,6 +129,7 @@ public class Player : MovingObject
     }
 
     public override void die() {
+        GameManager.getInstance().playPlayerDeathSound();
         EnemySpawner.getInstance().removeLasers();
         GameManager.getInstance().gameStop();
         Destroy(gameObject);
@@ -134,25 +143,23 @@ public class Player : MovingObject
         return nukes == maxNukes;
     }
 
-    public void setNukes(int value)
-    {
+    public void setNukes(int value) {
         nukes = value;
     }
 
-    public void setMaxNukes(int value)
-    {
+    public void setMaxNukes(int value) {
         maxNukes = value;
     }
 
-    public override void GetDamage(float damage)
-    {
+    public override void GetDamage(float damage) {
         base.GetDamage(damage);
+        audioSource.PlayOneShot(playerHitClip);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
+    void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("Pickup")) {
             collision.GetComponent<Pickup>().OnPickup();
+            audioSource.PlayOneShot(powerupClip);
         }
     }
 }

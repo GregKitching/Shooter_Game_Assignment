@@ -4,12 +4,15 @@ public class LaserEnemy : Enemy
 {
     [SerializeField] float damageScale;
     [SerializeField] float chargeTime;
+    [SerializeField] AudioClip laserChargeClip;
+    [SerializeField] AudioClip laserFireClip;
     Player player;
     LineRenderer laser;
     bool charging = false;
     bool firing = false;
     float chargeCounter = 0.0f;
     Color chargeColour;
+    AudioSource audioSource;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
@@ -18,6 +21,7 @@ public class LaserEnemy : Enemy
         player = GameManager.getInstance().getPlayer();
         laser = GetComponentInChildren<LineRenderer>();
         chargeColour = new Color(0.0f, 0.5f, 0.0f);
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -51,6 +55,9 @@ public class LaserEnemy : Enemy
         laser.SetPosition(1, transform.InverseTransformPoint(target.position));
         laser.startColor = chargeColour;
         laser.endColor = chargeColour;
+        audioSource.clip = laserChargeClip;
+        audioSource.volume = 1.0f;
+        audioSource.Play();
     }
 
     void startFiring() {
@@ -59,6 +66,10 @@ public class LaserEnemy : Enemy
         chargeCounter = 0.0f;
         laser.startColor = Color.green;
         laser.endColor = Color.green;
+        audioSource.Stop();
+        audioSource.clip = laserFireClip;
+        audioSource.volume = 0.1f; //Tried to make this quieter, doesn't seem to do anything
+        audioSource.Play();
     }
 
     void stopChargingOrFiring() {
@@ -68,9 +79,15 @@ public class LaserEnemy : Enemy
         laser.SetPosition(1, Vector3.zero);
         laser.startColor = Color.green;
         laser.endColor = Color.green;
+        audioSource.Stop();
     }
 
     public void removeLaser() {
         stopChargingOrFiring();
+    }
+    
+    public override void GetDamage(float damage) {
+        base.GetDamage(damage);
+        audioSource.PlayOneShot(enemyDamageClip);
     }
 }

@@ -4,7 +4,8 @@ public class MeleeEnemy : Enemy
 {
     [SerializeField] float damage;
 
-    protected override void Start() {
+    protected override void Start()
+    {
         base.Start();
         enemyType = EnemyType.Melee;
     }

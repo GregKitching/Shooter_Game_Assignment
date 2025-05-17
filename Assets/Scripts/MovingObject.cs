@@ -1,5 +1,3 @@
-using Unity.Mathematics;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public abstract class MovingObject : MonoBehaviour, IDamagable
@@ -11,10 +9,7 @@ public abstract class MovingObject : MonoBehaviour, IDamagable
     public virtual void move(float speed) {
 
     }
-    /// <summary>
-    /// AAAAAAAAAAAAAAAAAAAAAAAAAAA
-    /// </summary>
-    /// <param name="direction">Vector2 direction</param>
+
     public abstract void move(Vector2 direction, Vector2 target);
     public abstract void fire();
     public abstract void attack(float interval);
